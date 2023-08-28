@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -94,8 +95,20 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+            boolean alreadyAdded = false;
+
+            for (String key : row.keySet()) {
+                if (row.get(key).toLowerCase().contains(value.toLowerCase()) && !alreadyAdded) {
+                    jobs.add(row);
+                    alreadyAdded = true;
+                }
+            }
+        }
         // TODO - implement this method
-        return null;
+        return jobs;
     }
 
     /**
